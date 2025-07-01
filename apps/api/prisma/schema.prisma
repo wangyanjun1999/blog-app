@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -24,7 +23,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-//
+// 对多的时候，使用[]
   posts     Post[]
   comments  Comment[]
   likes     Like[]
@@ -44,11 +43,14 @@ model Post {
   authorId Int
 //
   comments Comment[]
-// 多对多
-  tags Tag[] @relation("PostTag")
+
 
   // 
   likes Like[]
+
+// 多对多
+  tags Tag[] @relation("PostTag")
+
 }
 
 model Comment {
@@ -73,7 +75,6 @@ model Tag {
   updatedAt DateTime @updatedAt
 //
   posts     Post[] @relation("PostTag")
-  postId    Int
 }
 
 
