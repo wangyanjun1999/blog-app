@@ -21,13 +21,17 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@apollo/server": "^4.12.2",
     "@faker-js/faker": "^9.8.0",
+    "@nestjs/apollo": "^13.1.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/graphql": "^13.1.0",
     "@nestjs/platform-express": "^11.0.1",
     "@prisma/client": "6.10.1",
     "@swc/helpers": "0.5.17",
+    "graphql": "^16.11.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },

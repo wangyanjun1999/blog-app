@@ -27,4 +27,8 @@ To map your data model to the database schema, you need to use the prisma migrat
 
 6. graphql
 
+- nest g res user 
+- 修改 entities
+- playground
+
 
