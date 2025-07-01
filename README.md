@@ -32,3 +32,5 @@ To map your data model to the database schema, you need to use the prisma migrat
 - playground
 
 
+7. authentication
+
