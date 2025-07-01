@@ -57,6 +57,11 @@ type Post {
   likes: [Like!]!
 }
 
+type AuthPayload {
+  accessToken: String!
+  user: User!
+}
+
 type Query {
   posts: [Post!]!
   post(id: Int!): Post!
@@ -82,7 +87,7 @@ type Mutation {
   createLike(createLikeInput: CreateLikeInput!): Like!
   updateLike(updateLikeInput: UpdateLikeInput!): Like!
   removeLike(id: Int!): Like!
-  signIn(signInInput: SignInInput!): String!
+  signIn(signInInput: SignInInput!): AuthPayload!
 }
 
 input UpdatePostInput {

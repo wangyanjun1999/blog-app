@@ -1,13 +1,17 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CreateAuthInput } from './dto/create-auth.input';
-import { UpdateAuthInput } from './dto/update-auth.input';
 import { SignInInput } from './dto/sign-in.input';
 import { PrismaService } from '../prisma/prisma.service';
 import { verify } from 'argon2';
+import { JwtService } from '@nestjs/jwt';
+import { AuthJwtPayload } from './types/auth-jwtPayload';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async validateLocalUser({ email, password }: SignInInput) {
     // 找人
@@ -29,26 +33,47 @@ export class AuthService {
     return user;
   }
 
-  signIn(signInInput: SignInInput) {
-    throw new Error('Method not implemented.');
-  }
-  create(createAuthInput: CreateAuthInput) {
-    return 'This action adds a new auth';
+  // signIn(signInInput: SignInInput) {
+  //   throw new Error('Method not implemented.');
+  // }
+
+  // 生成token
+  async generateToken(userId: number) {
+    const payload: AuthJwtPayload = { sub: userId };
+    console.log('在generateToken: ', payload);
+    const accessToken = await this.jwtService.signAsync(payload);
+    console.log('在generateToken-accessToken: ', accessToken);
+    return accessToken;
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async login(user: User) {
+    console.log('[AuthService] Login started for user:', { 
+      userId: user.id,
+      email: user.email,
+      timestamp: new Date().toISOString() 
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    try {
+      const accessToken = await this.generateToken(user.id);
+      
+      console.log('[AuthService] Token generated successfully for user:', {
+        userId: user.id,
+        tokenLength: accessToken.length,
+        timestamp: new Date().toISOString()
+      });
 
-  update(id: number, updateAuthInput: UpdateAuthInput) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+      return {
+        accessToken,
+        user,
+      };
+    } catch (error) {
+      console.error('[AuthService] Login failed:', {
+        userId: user.id,
+        error: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString()
+      });
+      throw error;
+    }
   }
 }
