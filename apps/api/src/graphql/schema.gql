@@ -57,11 +57,6 @@ type Post {
   likes: [Like!]!
 }
 
-type Auth {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Query {
   posts: [Post!]!
   post(id: Int!): Post!
@@ -70,7 +65,6 @@ type Query {
   comment(id: Int!): Comment!
   tag(id: Int!): Tag!
   like(id: Int!): Like!
-  auth(id: Int!): Auth!
 }
 
 type Mutation {
@@ -88,9 +82,7 @@ type Mutation {
   createLike(createLikeInput: CreateLikeInput!): Like!
   updateLike(updateLikeInput: UpdateLikeInput!): Like!
   removeLike(id: Int!): Like!
-  createAuth(createAuthInput: CreateAuthInput!): Auth!
-  updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
-  removeAuth(id: Int!): Auth!
+  signIn(signInInput: SignInInput!): String!
 }
 
 input UpdatePostInput {
@@ -149,13 +141,7 @@ input UpdateLikeInput {
   id: Int!
 }
 
-input CreateAuthInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateAuthInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+input SignInInput {
+  email: String!
+  password: String!
 }
