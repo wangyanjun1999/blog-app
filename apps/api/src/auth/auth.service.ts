@@ -5,6 +5,7 @@ import { verify } from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { AuthJwtPayload } from './types/auth-jwtPayload';
 import { User } from '@prisma/client';
+import { id_ID } from '@faker-js/faker/.';
 
 @Injectable()
 export class AuthService {
@@ -75,5 +76,17 @@ export class AuthService {
       });
       throw error;
     }
+  }
+
+  async validateJwtUser(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    const currentUser = { id: user.id}
+    return currentUser;
   }
 }

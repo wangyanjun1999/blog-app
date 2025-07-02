@@ -4,7 +4,7 @@ import { AuthResolver } from './auth.resolver';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-
+import { JwtStrategy } from './strategies/jwt.strategy';
 @Module({
   imports: [
     // 使用异步方式配置JWT模块，以便在运行时动态获取配置
@@ -25,7 +25,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         return {
           secret,
           signOptions: {
-            expiresIn: configService.get<string>('JWT_EXPIRES_IN') || '1h',
+            expiresIn: configService.get<string>('JWT_EXPIRES_IN'),
           },
         };
       }
@@ -33,6 +33,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
 
   // 这里不需要注入JwtService，因为JwtModule已经自动注入
-  providers: [AuthResolver, AuthService, PrismaService],
+  providers: [AuthResolver, AuthService, PrismaService, JwtStrategy],
 })
 export class AuthModule {}

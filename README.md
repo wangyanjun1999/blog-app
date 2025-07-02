@@ -33,4 +33,6 @@ To map your data model to the database schema, you need to use the prisma migrat
 
 
 7. authentication
+jwt
 
+8.protected endpoint

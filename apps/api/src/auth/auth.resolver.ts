@@ -3,10 +3,13 @@ import { AuthService } from './auth.service';
 import { SignInInput } from './dto/sign-in.input';
 import { User } from '../user/entities/user.entity';
 import { AuthPayload } from './entities/auth-payload.entity';
+import { JwtAuthGuard } from './guards/jwt-auth/jwt-auth.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => User)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
+
 
   @Mutation(() => AuthPayload)
   async signIn(@Args('signInInput') signInInput: SignInInput) {
